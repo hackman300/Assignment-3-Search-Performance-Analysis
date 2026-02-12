@@ -61,13 +61,13 @@ def binary_search_iterative(data, target):
     left = 0
     right = len(data) - 1
     while left <= right:
-        mid = (left + right) // 2
-        if data[mid] == target:
-            return mid
-        elif data[mid] < target:
-            left = mid + 1
+        middle = (left + right) // 2
+        if data[middle] == target:
+            return middle
+        elif data[middle] < target:
+            left = middle + 1
         else:
-            right = mid - 1
+            right = middle - 1
     return -1
 
 
@@ -101,14 +101,14 @@ def binary_search_recursive(data, target, left=None, right=None):
     if left > right:
         return -1
 
-    mid = (left + right) // 2
+    middle = (left + right) // 2
 
-    if data[mid] == target:
-        return mid
-    elif data[mid] < target:
-        return binary_search_recursive(data, target, mid + 1, right)
+    if data[middle] == target:
+        return middle
+    elif data[middle] < target:
+        return binary_search_recursive(data, target, middle + 1, right)
     else:
-        return binary_search_recursive(data, target, left, mid - 1)
+        return binary_search_recursive(data, target, left, middle - 1)
 
 
 def load_dataset(fn):
@@ -124,7 +124,7 @@ def load_test_cases():
 
 
 def test_search_correctness():
-    """Test that search functions work correctly."""
+    """Test that search func work correctly."""
 
     sorted_data = [1, 3, 5, 7, 9, 11, 13, 15]
     unsorted_data = [7, 2, 9, 1, 5, 13, 3, 11]
@@ -160,12 +160,12 @@ def test_search_correctness():
     print(f"    Expected: -1, Got: {result}, {'✓ PASS' if result == -1 else '✗ FAIL'}")
 
 
-def benchmark_algorithm(search_func, data, targets):
+def benchmark_algorithm(search_function, data, targets):
     """
     Benchmark a search algorithm on given data with multiple targets.
 
     Args:
-        search_func: The search function to test
+        search_func: The search func to test
         data: The dataset to search
         targets: List of items to search for
 
@@ -175,7 +175,7 @@ def benchmark_algorithm(search_func, data, targets):
     start = time.time()
 
     for target in targets:
-        search_func(data, target)
+        search_function(data, target)
 
     end = time.time()
     return (end - start) / len(targets)
@@ -257,7 +257,7 @@ def analyze_preprocessing_costs():
 
 if __name__ == "__main__":
     print("SEARCH ASSIGNMENT - STARTER CODE")
-    print("Implement the search functions above, then run tests.\n")
+    print("Implement the search func above, then run tests.\n")
 
     test_search_correctness()
     benchmark_all_datasets()
