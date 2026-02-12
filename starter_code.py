@@ -262,3 +262,32 @@ if __name__ == "__main__":
     test_search_correctness()
     benchmark_all_datasets()
     analyze_preprocessing_costs()
+
+
+
+"""
+The benchmarks reveal significant performance differences across algorithms and datasets. For the Unsorted Customer IDs with 100K entries, the linear 
+search averaged 1.8646 ms per search, while both iterative and recursive binary searches averaged 0.0023 ms, yielding a 832.88x speedup. On the Pre-sorted 
+Product Catalog with 50K entries, the linear was 1.0949 ms, the binary iterative was 0.0017 ms, and the recursive was 0.0021 ms, yielding a 651.40x speedup. For Small 
+Config Settings with 500 entries, the linear took 0.0084 ms, the binary iterative 0.0008 ms, and the recursive 0.0011 ms, yielding a 10.3x speedup. Finally, 
+Dictionary Words with 10K entries showed a linear search at 0.1950 ms, a binary iterative search at 0.0022 ms, and a recursive search at 0.0019 ms, resulting in a 87.47x speedup.
+
+The binary search consistently outperformed linear search, with the gap widening as dataset sizes increased. Iterative and recursive binary performed similarly, with their 
+differences consistently under 00.0004 ms. Overall, these types of algorithms shine in large-scale scenarios. Preprocessing via sorting incurs a one-time cost but allows for 
+faster binary searches. For the Unsorted Customer IDs, sorting took 13.57 ms, with linear search at 1.8646 ms per search. 
+
+For infrequent searches, linear search avoids unnecessary overheads. Additionally, if data frequently changes, maintaining sorted order could get complicated, making a linear 
+approach preferable. For small datasets like Config Settings, the absolute savings are tiny, so sorting is rarely useful unless the number of searches is large. 
+
+For Unsorted Customer IDs, I recommend sorting once and using an iterative binary search because of the high volume and potential for frequent lookups. Trade-offs include 
+the 13 ms sort cost, though this is negligible for persistent systems; linear's 2 ms per search would accumulate quickly.
+
+For the Pre-sorted Product Catalog, iterative binary search is ideal. The data is already sorted, eliminating preprocessing, and provides a 651x speedup over linear. This 
+suits frequent queries in online shopping, prioritizing speed and low overhead; recursive is similar, but iterative avoids stack risks in high-traffic scenarios.
+
+For Small Config Setting's linear search, with only a 10.73x speedup. Sorting's 0.61 ms is not justified unless searches are extraordinarily frequent. Simplicity and the 
+absence of preprocessing make linear methods appropriate for small, static data sets.
+
+For Dictionary Words, an iterative binary search is best. Already sorted for prefix matching, it leverages the order for 87.47x speedup, crucial for real-time typing. 
+Factors include data size and usage, where low latency is key.
+"""
